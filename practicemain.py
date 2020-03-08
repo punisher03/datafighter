@@ -8,6 +8,7 @@ from parsel import Selector
 from flask import jsonify
 from flask_dropzone import Dropzone
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from werkzeug.datastructures import ImmutableMultiDict
 
 app = Flask(__name__)
 dropzone = Dropzone(app)
@@ -78,8 +79,12 @@ def results():
 @app.route('/humanresult',methods = ['POST', 'GET'])
 def result():
    if request.method == 'POST':
-      result = request.form
-      return render_template("humanresult.html",result = result)
+       result = request.form
+       resultdic = result.to_dict()    
+       with open('person.json', 'w') as json_file:
+            json.dump(resultdic, json_file)
+     
+            return render_template("humanresult.html",result = result)
 
 
 # @app.route('/play', methods =['GET', 'POST'])
@@ -92,7 +97,6 @@ def result():
 
 if __name__ == '__main__':
     app.run(debug=True)    
-
 
 
 
