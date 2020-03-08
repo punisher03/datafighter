@@ -75,6 +75,11 @@ def results():
     
     return render_template('results.html', file_urls=file_urls)
 
+@app.route('/humanresult',methods = ['POST', 'GET'])
+def result():
+   if request.method == 'POST':
+      result = request.form
+      return render_template("humanresult.html",result = result)
 
 
 # @app.route('/play', methods =['GET', 'POST'])
